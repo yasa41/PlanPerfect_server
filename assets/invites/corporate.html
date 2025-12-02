@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corporate Event Invitation</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --gold: #d8b56e;
+    --light-gold: #f4e4c3;
+    --navy: #061433;
+    --deep-navy: #020b22;
+    --card-bg: rgba(5, 15, 40, 0.65);
+    --border-gold: rgba(216,181,110,0.6);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: url('https://i.pinimg.com/1200x/14/f1/e3/14f1e35684c05aaf2c551cb6cdddbec9.jpg') no-repeat center center/cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+  }
+
+  .invite-card {
+    width: 100%;
+    max-width: 550px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-gold);
+    backdrop-filter: blur(6px);
+    padding: 40px 30px;
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    position: relative;
+  }
+
+  /* Gold border frame */
+  .invite-card::before {
+    content: "";
+    position: absolute;
+    top: 12px;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    border: 2px solid var(--gold);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
+  /* MAIN TITLE */
+  .title-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 46px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 0px;
+  }
+
+  .subtitle {
+    margin-top: 8px;
+    font-size: 16px;
+    color: var(--light-gold);
+    letter-spacing: 2px;
+  }
+
+  /* DATE BLOCK */
+  .date-block {
+    margin-top: 30px;
+    font-size: 18px;
+    color: white;
+  }
+
+  .month {
+    font-size: 22px;
+    margin-top: 5px;
+    font-weight: 600;
+    color: var(--light-gold);
+  }
+
+  .day-big {
+    font-size: 55px;
+    font-family: 'Playfair Display', serif;
+    margin-top: 8px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .time-row {
+    margin-top: 12px;
+    font-size: 15px;
+    letter-spacing: 1px;
+  }
+
+  /* MESSAGE */
+  .message {
+    margin-top: 30px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #dcdcdc;
+    padding: 0 10px;
+  }
+
+  /* RSVP */
+  .rsvp {
+    margin-top: 30px;
+    font-size: 13px;
+    color: var(--light-gold);
+  }
+
+  @media (max-width:480px){
+    .title-big { font-size: 34px; }
+    .day-big { font-size: 45px; }
+  }
+</style>
+</head>
+
+<body>
+  <div class="invite-card">
+
+    <div class="subtitle">SAVE THE DATE FOR THE</div>
+
+    <div class="title-big">Corporate<br>Event</div>
+
+    <div class="date-block">
+      <div>MONDAY</div>
+      <div class="month">JUNE</div>
+      <div class="day-big">9TH</div>
+      <div>2025</div>
+
+      <div class="time-row">7 PM – 10 PM</div>
+    </div>
+
+    <div class="message">
+      We sincerely hope you will join us. Your insight and expertise 
+      fuel our collective success, and we look forward to your 
+      valuable contributions.
+    </div>
+
+    <div class="rsvp">
+      RSVP • Mark Henderson • +1 123 456 7890
+    </div>
+
+  </div>
+</body>
+</html>

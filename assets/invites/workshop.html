@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Workshop Invitation</title>
+  <!-- Google fonts (optional) -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: url('https://img.freepik.com/premium-photo/minimal-office-interior_72104-1995.jpg?semt=ais_hybrid&w=740&q=80'); /* replace with your bg image url */
+      --card-bg:  #e0ceb6cb;
+      --accent: #6a8a6f; /* green used for the date */
+      --muted: #a67f7f;
+      --text: #222;
+      --max-width: 720px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      color:var(--text);
+      background-image: var(--bg);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+    }
+
+    .invite-card{
+      width:100%;
+      max-width:var(--max-width);
+      background: var(--card-bg);
+      border-radius:16px;
+      padding:48px 40px;
+      box-shadow: 0 8px 30px rgba(15,15,15,0.18);
+      backdrop-filter: blur(4px);
+      text-align:center;
+      position:relative;
+    }
+
+    /* top label */
+    .label{
+      font-family: 'Playfair Display', serif;
+      letter-spacing: 4px;
+      font-weight:700;
+      margin:0;
+      font-size:20px;
+    }
+    .subscript{
+      display:block;
+      font-family: 'Poppins';
+      font-weight:300;
+      font-style:italic;
+      color:#55615a;
+      margin-top:-6px;
+      font-size:18px;
+    }
+
+    h1.title{
+      font-family: 'Poppins';
+      font-weight:600;
+      margin:28px 0 6px 0;
+      font-size:30px;
+      letter-spacing:6px;
+    }
+
+    p.subtitle{
+      margin:0 0 22px 0;
+      font-size:20px;
+      letter-spacing:6px;
+    }
+
+    /* date block */
+    .date-wrap{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:18px;
+      margin:18px 0 10px 0;
+      flex-wrap:wrap;
+    }
+
+    .date-item{font-family:'Playfair Display', serif;}
+    .date-item .day{
+      font-size:44px;
+      color:var(--accent);
+      font-weight:700;
+      margin:0 8px;
+    }
+    .date-item small{display:block; font-size:14px; letter-spacing:1px}
+
+    .divider{
+      height:2px;
+      width:100px;
+      background:rgba(0,0,0,0.1);
+      border-radius:2px;
+    }
+
+    .year{margin-top:6px; font-size:16px; letter-spacing:2px}
+
+    /* venue */
+    .venue{
+      margin-top:22px;
+      font-weight:600;
+      font-size:18px;
+    }
+    .address{
+      margin-top:8px;
+      font-size:14px;
+      color:#444;
+      line-height:1.4;
+    }
+
+    .footer-note{
+      margin-top:28px;
+      font-size:12px;
+      color:#666;
+      letter-spacing:1px;
+    }
+
+    /* responsive tweaks */
+    @media (max-width:520px){
+      .invite-card{padding:28px 20px}
+      .label{font-size:16px}
+      .subscript{font-size:14px}
+      h1.title{font-size:22px; letter-spacing:4px}
+      p.subtitle{font-size:16px}
+      .date-item .day{font-size:36px}
+    }
+  </style>
+</head>
+<body>
+  <article class="invite-card" role="article" aria-label="Birthday invitation">
+    <div class="label">WORKSHOP <span class="subscript">Event</span></div>
+    <h1 class="title">Figma<br>Workshop</h1></br>
+    <p class="subtitle">AUGUST</p>
+    <div class="date-wrap">
+
+      <div class="date-item">
+        <small>FRIDAY</small>
+      </div>
+
+      <div class="divider" aria-hidden="true"></div>
+
+      <div class="date-item">
+        <div class="day">24</div>
+      </div>
+
+      <div class="divider" aria-hidden="true"></div>
+
+      <div class="date-item">
+        <small>10AM–4PM</small>
+      </div>
+    </div>
+
+    <div class="year">2024</div>
+
+    <div class="venue">AUDITORIUM &amp; VENUE</div>
+    <div class="address">INDIAN INSTITUTE OF TECHNOLOGY<br>NEAR SATTUR COLONY, DHARWAD 580003</div>
+
+  </article>
+</body>
+</html>
