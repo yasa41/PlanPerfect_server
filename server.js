@@ -7,7 +7,6 @@ import path from "path";
 //express 
 import connectDB from "./config/mongodb.js";
 import authRouter from "./routes/authRoutes.js";
-import testAiRoute from './routes/testRoute.js';
 import typeRouter from "./routes/eventTypeRoutes.js";
 import eventRouter from "./routes/eventRoutes.js";
 import guestRouter from "./routes/guestRoutes.js";
@@ -38,7 +37,6 @@ app.use('/assets/images', express.static(path.join(__dirname, 'assets/images')))
 
 // Routes
 app.use("/api/auth", authRouter);
-app.use('/api', testAiRoute);
 app.use('/api/event-type',typeRouter);
 app.use('/api/events',eventRouter);
 app.use('/api/guests',guestRouter);

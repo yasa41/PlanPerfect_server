@@ -21,9 +21,6 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.1",
     "nodemailer": "^7.0.10",
-    "nodemon": "^3.1.10",
-    "openai": "^6.9.0",
-    "pdfcrowd": "^6.5.3",
-    "puppeteer": "^24.30.0"
+    "nodemon": "^3.1.10"
   }
 }
