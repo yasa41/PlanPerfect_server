@@ -80,34 +80,45 @@ export const logout = async (req, res) => {
 
 export const requestPasswordReset = async (req, res) => {
   const { email } = req.body;
-  if (!email) return res.json({ success: false, message: 'Email is required' });
+  console.log("requestPasswordReset hit with email:", email);
+
+  if (!email) {
+    console.log("No email provided");
+    return res.json({ success: false, message: "Email is required" });
+  }
 
   const user = await userModel.findOne({ email });
-  if (!user) return res.json({ success: false, message: 'User not found' });
+  if (!user) {
+    console.log("User not found for email:", email);
+    return res.json({ success: false, message: "User not found" });
+  }
 
-  // Create reset token
-  const resetToken = crypto.randomBytes(32).toString('hex');
-  
-  // Hash token before saving to DB for security
-  user.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-  user.resetPasswordExpire = Date.now() + 300000; // 5 min expiry
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  user.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+  user.resetPasswordExpire = Date.now() + 300000; // 5 min
   await user.save();
 
-  // Construct reset URL to be sent via email
   const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
-
   const message = `You requested a password reset. Please use the following link to reset your password:\n\n${resetUrl}\n\nIf you did not request this, please ignore this email.`;
 
   try {
-    await sendEmail(user.email, 'Password Reset Request', message);
-    res.json({ success: true, message: 'Reset email sent' });
+    console.log("Sending reset email to:", user.email);
+    await sendEmail(user.email, "Password Reset Request", message);
+    console.log("Reset email sent successfully");
+    return res.json({ success: true, message: "Reset email sent" });
   } catch (error) {
+    console.error("Error sending reset email:", error);
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
     await user.save();
-    res.json({ success: false, message: 'Email could not be sent' });
+    return res.json({ success: false, message: "Email could not be sent" });
   }
 };
+
 
 export const resetPassword = async (req, res) => {
   const { token, newPassword } = req.body;
