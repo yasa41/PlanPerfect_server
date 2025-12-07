@@ -1,20 +1,21 @@
 import nodemailer from "nodemailer";
 
 export const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // true for 465, false for 587
+  host: process.env.BREVO_HOST || "smtp-relay.brevo.com",
+  port: Number(process.env.BREVO_PORT) || 587,
+  secure: false, // Brevo uses TLS on port 587
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.BREVO_USER, // your Gmail that is verified in Brevo
+    pass: process.env.BREVO_PASS, // Brevo SMTP key
   },
 });
 
-export const sendEmail = async (to, subject, text) => {
-  await transporter.sendMail({
-    from: process.env.EMAIL_USER,
+export const sendEmail = async (to, subject, text, html) => {
+  return await transporter.sendMail({
+    from: process.env.BREVO_USER, // must match a verified Brevo sender
     to,
     subject,
     text,
+    html,
   });
 };
