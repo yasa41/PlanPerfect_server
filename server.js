@@ -13,7 +13,7 @@ import budgetRouter from "./routes/budgetRoutes.js";
 import todoRouter from "./routes/toDoListRoutes.js";
 import vendorRouter from "./routes/vendorRoutes.js";
 import inviteRouter from "./routes/inviteRoutes.js";
-import photoRoutes from './routes/photoroutes.js';
+import photoRoutes from './routes/photoRoutes.js';
 
 dotenv.config();
 
