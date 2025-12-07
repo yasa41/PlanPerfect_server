@@ -13,6 +13,7 @@ import budgetRouter from "./routes/budgetRoutes.js";
 import todoRouter from "./routes/toDoListRoutes.js";
 import vendorRouter from "./routes/vendorRoutes.js";
 import inviteRouter from "./routes/inviteRoutes.js";
+import photoRoutes from './routes/photoroutes.js';
 
 dotenv.config();
 
@@ -23,7 +24,11 @@ connectDB();
 
 // Middlewares
 app.use(cors({
-  origin: process.env.CLIENT_URL, // Netlify URL will go here
+  origin: [
+    process.env.CLIENT_URL,          // Netlify
+    "http://localhost:5173",         // Vite default
+        
+  ],
   credentials: true,
 }));
 
@@ -42,6 +47,8 @@ app.use("/api/budget", budgetRouter);
 app.use("/api/todo", todoRouter);
 app.use("/api/vendor", vendorRouter);
 app.use("/api/invites", inviteRouter);
+app.use('/api/photos', photoRoutes);
+app.use('/uploads', express.static('uploads'));
 
 // Health check for Render
 app.get("/api/health", (req, res) => {

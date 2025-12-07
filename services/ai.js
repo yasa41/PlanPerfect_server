@@ -3,24 +3,26 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: process.env.EMAIL_USER, // gmail address
-    pass: process.env.EMAIL_PASS, // gmail app password
+    user: process.env.BREVO_USER,        // SMTP LOGIN (example: 9d8277001@smtp-brevo.com)
+    pass: process.env.BREVO_SMTP_KEY,    // SMTP KEY (xkeysib-...)
   },
 });
 
 /**
- * Send email with HTML + attachments
- * @param {Object} options
- * @param {string} options.to
- * @param {string} options.subject
- * @param {string} options.html
- * @param {Array}  options.attachments
+ * Send email with HTML + attachments (Brevo)
  */
-export default async function sendEmail({ to, subject, html, attachments = [] }) {
+export default async function sendEmail({
+  to,
+  subject,
+  html,
+  attachments = [],
+}) {
   return transporter.sendMail({
-    from: process.env.EMAIL_USER,
+    from: `"PlanPerfect Events" <planperfect705@gmail.com>`, // HARDCODED
     to,
     subject,
     html,
