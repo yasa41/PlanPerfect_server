@@ -41,12 +41,22 @@ export const generateInviteText = async (req, res) => {
     }
 
     const eventTypeName = event.eventType?.name || "event";
-    const eventDate = event.date?.toDateString() || "a special day";
+    
+    // Date formatting (Dec 12 2025)
+    const eventDate = event.date
+      ? event.date.toDateString()
+      : "a special day";
+
+    // Time formatting (06:30 PM)
+    const eventTime = event.date
+      ? event.date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+      : "Time not specified";
 
     const message = `
 You are warmly invited to our ${eventTypeName.toLowerCase()} titled ${event.title}.
 
 📅 Date: ${eventDate}
+⏰ Time: ${eventTime}
 📍 Venue: ${event.venue}
 
 ${event.description ? `Details: ${event.description}\n` : ""}
