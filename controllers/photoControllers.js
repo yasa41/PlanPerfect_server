@@ -43,7 +43,7 @@ const upload = multer({
   fileFilter 
 });
 
-// 1. UPLOAD PHOTOS (✅ FIXED - handles anonymous + user)
+// 1. UPLOAD PHOTOS ( handles anonymous + user)
 export const uploadPhotos = async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
@@ -61,7 +61,7 @@ export const uploadPhotos = async (req, res) => {
       });
     }
 
-    // ✅ FIX: Convert to ObjectId + handle user properly
+    // Convert to ObjectId + handle user properly
     let uploadedBy = null;
     if (req.user?._id || req.user?.id) {
       uploadedBy = req.user._id || req.user.id;
@@ -70,7 +70,7 @@ export const uploadPhotos = async (req, res) => {
     const photos = [];
     for (const file of req.files) {
       const photo = new Photo({
-        eventId: new mongoose.Types.ObjectId(eventIdStr), // ✅ FIXED
+        eventId: new mongoose.Types.ObjectId(eventIdStr), 
         filename: file.filename,
         originalName: file.originalname,
         path: file.path,
@@ -93,7 +93,7 @@ export const uploadPhotos = async (req, res) => {
   }
 };
 
-// 2. GET EVENT PHOTOS (✅ FIXED for new route /event/:eventId)
+// 2. GET EVENT PHOTOS (FIXED for new route /event/:eventId)
 export const getEventPhotos = async (req, res) => {
   try {
     const eventId = req.params.eventId;
@@ -146,46 +146,50 @@ export const deletePhoto = async (req, res) => {
   }
 };
 
-// 4. SEND PHOTOS TO RSVP'D GUESTS
+
 export const sendPhotosToRsvpGuests = async (req, res) => {
   const { eventId } = req.body;
 
   try {
+    // Validate event
     const event = await Event.findById(new mongoose.Types.ObjectId(eventId));
     if (!event) {
       return res.status(404).json({
         success: false,
-        message: "Event not found"
+        message: "Event not found",
       });
     }
 
-    const rsvpGuests = await Guest.find({ 
-      eventId: new mongoose.Types.ObjectId(eventId), 
-      rsvpStatus: 'accepted'
-    }).select('email name');
+    // Get guests who RSVP'd "accepted"
+    const rsvpGuests = await Guest.find({
+      eventId: new mongoose.Types.ObjectId(eventId),
+      rsvpStatus: "accepted",
+    }).select("email name");
 
     if (!rsvpGuests.length) {
       return res.json({
         success: true,
-        message: "No guests have accepted RSVP yet"
+        message: "No guests have accepted RSVP yet",
       });
     }
 
-    const photos = await Photo.find({ 
-      eventId: new mongoose.Types.ObjectId(eventId) 
-    }).select('filename path originalName');
+    // Get event photos
+    const photos = await Photo.find({
+      eventId: new mongoose.Types.ObjectId(eventId),
+    }).select("filename path originalName");
 
     if (!photos.length) {
       return res.status(404).json({
         success: false,
-        message: "No photos found for this event"
+        message: "No photos found for this event",
       });
     }
 
+    // Send photos to each RSVP guest
     for (const guest of rsvpGuests) {
-      const attachments = photos.map(photo => ({
+      const attachments = photos.map((photo) => ({
         filename: photo.originalName,
-        path: photo.path
+        path: photo.path, // sendEmail() converts to Base64 internally
       }));
 
       await sendEmail({
@@ -198,24 +202,24 @@ export const sendPhotosToRsvpGuests = async (req, res) => {
             <p>Thank you for attending <strong>${event.title}</strong>!</p>
             <p>Here are <strong>${photos.length}</strong> photos from the event:</p>
             <ul style="color: #6d4c41;">
-              ${photos.map(p => `<li>✨ ${p.originalName}</li>`).join('')}
+              ${photos.map((p) => `<li>✨ ${p.originalName}</li>`).join("")}
             </ul>
             <div style="background: #f8f4e9; padding: 20px; border-radius: 10px; margin: 20px 0;">
-              <p style="margin: 0; font-weight: bold;">Photos attached above!</p>
+              <p style="margin: 0; font-weight: bold;">Photos are attached above!</p>
             </div>
             <p style="color: #666;">Thanks for being part of the celebration! ✨</p>
           </div>
         `,
-        attachments
+        attachments,
       });
     }
 
     res.json({
       success: true,
-      message: `${rsvpGuests.length} guests received ${photos.length} photos each`
+      message: `${rsvpGuests.length} guests received ${photos.length} photos each`,
     });
-
   } catch (error) {
+    console.error("sendPhotosToRsvpGuests error:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };

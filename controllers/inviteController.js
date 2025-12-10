@@ -116,33 +116,41 @@ export const downloadInvitePdf = async (req, res) => {
 // -------------------------------------------------------------
 // SEND INVITE EMAIL WITH STORED PDF FILE
 // -------------------------------------------------------------
+
+
 export const sendInviteEmail = async (req, res) => {
   const { eventId, subject, inviteHtml } = req.body;
 
   try {
+    // Get guests
     const guests = await Guest.find({ eventId });
     if (!guests.length) {
       return res.status(404).json({ success: false, message: "No guests found" });
     }
 
+    // Get the invite PDF path
     const inviteTemplate = await InviteTemplate.findOne({ eventId });
     if (!inviteTemplate) {
-      return res.status(404).json({ success: false, message: "Invite template not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Invite template not found" });
     }
 
-    // content now contains file path, NOT HTML
+    // PDF file path (stored as string in DB)
     const pdfPath = path.resolve("." + inviteTemplate.content);
     const pdfBuffer = fs.readFileSync(pdfPath);
 
+    // Loop + send email to every guest
     for (const guest of guests) {
       await sendEmail({
         to: guest.email,
         subject,
-        html: inviteHtml, 
+        html: inviteHtml,
         attachments: [
           {
             filename: "invite.pdf",
-            content: pdfBuffer,
+            path: pdfPath, // path gets auto converted in sendEmail()
+            content: pdfBuffer, // also supported
           },
         ],
       });
@@ -154,7 +162,7 @@ export const sendInviteEmail = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("Invite email error:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };

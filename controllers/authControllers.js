@@ -77,7 +77,6 @@ export const logout = async (req, res) => {
     }
 }
 
-
 export const requestPasswordReset = async (req, res) => {
   const { email } = req.body;
   console.log("requestPasswordReset hit with email:", email);
@@ -99,22 +98,44 @@ export const requestPasswordReset = async (req, res) => {
     .createHash("sha256")
     .update(resetToken)
     .digest("hex");
-  user.resetPasswordExpire = Date.now() + 300000; // 5 min
+
+  user.resetPasswordExpire = Date.now() + 300000; // 5 minutes
   await user.save();
 
   const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
-  const message = `You requested a password reset. Please use the following link to reset your password:\n\n${resetUrl}\n\nIf you did not request this, please ignore this email.`;
+
+  const message = `You requested a password reset. 
+Please use the following link to reset your password:
+
+${resetUrl}
+
+If you did not request this, please ignore this email.`;
 
   try {
     console.log("Sending reset email to:", user.email);
-    await sendEmail(user.email, "Password Reset Request", message);
+
+    // 🔥 Using Brevo API version of sendEmail()
+    await sendEmail(
+      user.email,
+      "Password Reset Request",
+      message,
+      `<p>You requested a password reset. Click the link below:</p>
+       <p><a href="${resetUrl}">${resetUrl}</a></p>
+       <p>If you did not request this, please ignore this email.</p>`
+    );
+
     console.log("Reset email sent successfully");
+
     return res.json({ success: true, message: "Reset email sent" });
+
   } catch (error) {
     console.error("Error sending reset email:", error);
+
+    // Cleanup token on failure
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
     await user.save();
+
     return res.json({ success: false, message: "Email could not be sent" });
   }
 };
