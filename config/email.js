@@ -10,6 +10,9 @@ const BREVO_API_KEY = process.env.BREVO_API_KEY;
 // SEND EMAIL (Brevo HTTP API)
 // =============================
 export const sendEmail = async (to, subject, text, html = "") => {
+  console.log("BREVO KEY LENGTH:", process.env.BREVO_API_KEY?.length);
+console.log("BREVO KEY RAW:", JSON.stringify(process.env.BREVO_API_KEY));
+
   const payload = {
     sender: {
       name: "PlanPerfect",
