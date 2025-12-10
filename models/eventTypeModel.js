@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const eventTypeSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true }, // "birthday", "workshop", etc.
+  name: { type: String, required: true, unique: true },
 
   defaultTasks: [
     {
@@ -9,22 +9,30 @@ const eventTypeSchema = new mongoose.Schema({
       status: { type: String, default: "pending" }
     }
   ],
-image: { type: String, required: true } ,
+
+  image: { type: String, required: true },
 
   defaultInvites: [
     {
       name: { type: String, required: true },
-      content: { type: String, required: true } 
+      content: { type: String, required: true }
     }
   ],
-   defaultVendors: [
+
+  defaultVendors: [
     {
-      category: { type: String, required: true },  // e.g. "Decoration", "Catering"
-      name: { type: String, required: true },      // Vendor name
-      estimate: { type: Number, required: true }   // Estimated price
+      category: { type: String, required: true },
+      name: { type: String, required: true },
+      estimate: { type: Number, required: true },
+
+      // ADD THESE TWO FIELDS
+      phoneNo: { type: String, trim: true },
+      details: { type: String, trim: true },
     }
   ]
 });
 
-const EventType = mongoose.models.EventType || mongoose.model("EventType", eventTypeSchema);
+const EventType =
+  mongoose.models.EventType || mongoose.model("EventType", eventTypeSchema);
+
 export default EventType;

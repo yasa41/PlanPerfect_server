@@ -53,7 +53,7 @@ export const generateInviteText = async (req, res) => {
       : "Time not specified";
 
     const message = `
-You are warmly invited to our ${eventTypeName.toLowerCase()} titled ${event.title}.
+You are warmly invited to our ${eventTypeName.toLowerCase()} ${event.title}.
 
 📅 Date: ${eventDate}
 ⏰ Time: ${eventTime}
@@ -75,9 +75,6 @@ Looking forward to seeing you there!
 };
 
 
-// -------------------------------------------------------------
-// DOWNLOAD INVITE PDF (NOW USES FILE, NOT HTML)
-// -------------------------------------------------------------
 // -------------------------------------------------------------
 // DOWNLOAD INVITE PDF (USES STORED PDF JUST LIKE EMAIL)
 // -------------------------------------------------------------

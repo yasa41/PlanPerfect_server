@@ -49,13 +49,13 @@ export const createEvent = async (req, res) => {
     });
 
     // Create Invite Templates
-       const invite = await InviteTemplate.create({
+    const invite = await InviteTemplate.create({
       eventId: event._id,
       name: template.defaultInvites[0]?.name,
       content: template.defaultInvites[0]?.content,
     });
 
-    
+
     // Create Budget (default 0)
     const budget = await Budget.create({
       eventId: event._id,
@@ -71,7 +71,8 @@ export const createEvent = async (req, res) => {
           eventId: event._id,
           name: v.name,
           estimate: v.estimate,
-          details: v.category,
+          phoneNo: v.phoneNo,
+          details: v.details || v.category,
         });
         vendorDocs.push(vendor);
       }
