@@ -10,7 +10,27 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     resetPasswordToken: { type: String },
     resetPasswordExpire: { type: Date },
-    workingEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }]
+    workingEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }],
+    phone: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+    },
+
+    // phone OTP for forgot-password
+    phoneResetOtp: {
+        type: String,
+    },
+    phoneOtpVerified: {
+        type: Boolean,
+        default: false,
+    },
+
+    phoneResetOtpExpire: {
+        type: Date,
+    },
+
 },
     {
         timestamps: true
