@@ -3,12 +3,27 @@ import Guest from '../models/guestModel.js';
 // Get guests by event
 export const getGuestsByEvent = async (req, res) => {
   try {
-    const guests = await Guest.find({ eventId: req.params.eventId });
+    const { eventId } = req.params;
+    const { q } = req.query;
+
+    const query = { eventId };
+
+    if (q && q.trim()) {
+      const regex = new RegExp(q.trim(), 'i');
+      query.$or = [
+        { name: regex },
+        { email: regex },
+        { phoneNo: regex },
+      ];
+    }
+
+    const guests = await Guest.find(query).sort({ createdAt: -1 });
     res.json({ success: true, guests });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 // Add a guest to event guestlist
 export const addGuest = async (req, res) => {
@@ -37,6 +52,20 @@ export const updateRsvp = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// Delete a guest
+export const deleteGuest = async (req, res) => {
+  try {
+    const { guestId } = req.params;
+    const guest = await Guest.findByIdAndDelete(guestId);
+    if (!guest) return res.status(404).json({ success: false, message: "Guest not found" });
+
+    res.json({ success: true, message: "Guest deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 
 // (Optional) RSVP via GET links in email (simplified example)
 export const rsvpViaLink = async (req, res) => {
