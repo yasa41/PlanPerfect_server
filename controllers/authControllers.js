@@ -266,7 +266,7 @@ export const verifyPhoneOtp = async (req, res) => {
   user.phoneResetOtpExpire = undefined;
 user.phoneOtpVerified = true;
 await user.save();
-  await user.save();
+ 
 
   return res.json({ success: true });
 };

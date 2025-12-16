@@ -74,6 +74,8 @@ export const createEvent = async (req, res) => {
           estimate: v.estimate,
           phoneNo: v.phoneNo,
           details: v.details || v.category,
+          imageUrl: v.imageUrl || "",       // ✅ optional
+      websiteUrl: v.websiteUrl || ""  // ✅ optional
         });
         vendorDocs.push(vendor);
       }

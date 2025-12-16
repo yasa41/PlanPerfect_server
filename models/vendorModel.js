@@ -44,6 +44,15 @@ const vendorSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    imageUrl: {
+      type: String,
+      trim: true,
+    },
+
+    websiteUrl: {
+      type: String,
+      trim: true,
+    },
   },
   { timestamps: true }
 );

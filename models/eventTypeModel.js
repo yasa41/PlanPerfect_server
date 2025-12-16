@@ -28,6 +28,15 @@ const eventTypeSchema = new mongoose.Schema({
       // ADD THESE TWO FIELDS
       phoneNo: { type: String, trim: true },
       details: { type: String, trim: true },
+      imageUrl: {
+        type: String,
+        trim: true,
+      },
+
+      websiteUrl: {
+        type: String,
+        trim: true,
+      }
     }
   ]
 });

@@ -19,9 +19,12 @@ export const addVendor = async (req, res) => {
       email,
       phoneNo,
       estimate,
-      category,   // 🔥 ADD THIS
+      category,
       details,
+      imageUrl,
+      websiteUrl,
     } = req.body;
+
 
     if (!category) {
       return res.json({
@@ -36,8 +39,10 @@ export const addVendor = async (req, res) => {
       email,
       phoneNo,
       estimate,
-      category,   // 🔥 SAVE CATEGORY
+      category,
       details,
+      imageUrl,
+      websiteUrl
     });
 
     await vendor.save();
@@ -63,6 +68,9 @@ export const updateVendor = async (req, res) => {
       estimate,
       category,   // 🔥 ADD THIS
       details,
+      imageUrl,
+      websiteUrl
+
     } = req.body;
 
     const vendor = await Vendor.findById(vendorId);
@@ -75,8 +83,10 @@ export const updateVendor = async (req, res) => {
     if (email) vendor.email = email;
     if (phoneNo) vendor.phoneNo = phoneNo;
     if (estimate !== undefined) vendor.estimate = estimate;
-    if (category) vendor.category = category; // 🔥 UPDATE CATEGORY
+    if (category) vendor.category = category; 
     if (details) vendor.details = details;
+    if (imageUrl !== undefined) vendor.imageUrl = imageUrl;
+if (websiteUrl !== undefined) vendor.websiteUrl = websiteUrl;
 
     await vendor.save();
 
