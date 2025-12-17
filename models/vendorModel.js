@@ -53,6 +53,10 @@ const vendorSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    isHired: {
+  type: Boolean,
+  default: false,
+}
   },
   { timestamps: true }
 );

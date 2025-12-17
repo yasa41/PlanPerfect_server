@@ -1,4 +1,5 @@
 import Vendor from '../models/vendorModel.js';
+import sendEmail from "../services/ai.js";
 
 // Get vendor list for event
 export const getVendorsByEvent = async (req, res) => {
@@ -60,37 +61,31 @@ export const addVendor = async (req, res) => {
 // Update vendor details
 export const updateVendor = async (req, res) => {
   try {
-    const {
-      vendorId,
-      name,
-      email,
-      phoneNo,
-      estimate,
-      category,   // 🔥 ADD THIS
-      details,
-      imageUrl,
-      websiteUrl
+    const { vendorId, isHired } = req.body;
 
-    } = req.body;
+    if (typeof isHired !== "boolean") {
+      return res.status(400).json({
+        success: false,
+        message: "isHired must be a boolean",
+      });
+    }
 
     const vendor = await Vendor.findById(vendorId);
-    if (!vendor)
-      return res
-        .status(404)
-        .json({ success: false, message: "Vendor not found" });
 
-    if (name) vendor.name = name;
-    if (email) vendor.email = email;
-    if (phoneNo) vendor.phoneNo = phoneNo;
-    if (estimate !== undefined) vendor.estimate = estimate;
-    if (category) vendor.category = category; 
-    if (details) vendor.details = details;
-    if (imageUrl !== undefined) vendor.imageUrl = imageUrl;
-if (websiteUrl !== undefined) vendor.websiteUrl = websiteUrl;
+    if (!vendor) {
+      return res.status(404).json({
+        success: false,
+        message: "Vendor not found",
+      });
+    }
 
+    vendor.isHired = isHired;
     await vendor.save();
 
-    res.json({ success: true, vendor });
+    res.json({
+      success: true,
+      vendor,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -116,3 +111,32 @@ export const deleteVendor = async (req, res) => {
   }
 };
 
+
+
+
+export const sendVendorEmail = async (req, res) => {
+  try {
+    const { vendorId, subject, body } = req.body;
+
+    const vendor = await Vendor.findById(vendorId);
+    if (!vendor || !vendor.email) {
+      return res.status(404).json({
+        success: false,
+        message: "Vendor email not found",
+      });
+    }
+
+    await sendEmail({
+      to: vendor.email,
+      subject,
+      html: body.replace(/\n/g, "<br />"),
+    });
+
+    res.json({ success: true, message: "Email sent successfully" });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

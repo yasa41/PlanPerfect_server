@@ -70,6 +70,7 @@ export const createEvent = async (req, res) => {
         const vendor = await Vendor.create({
           eventId: event._id,
           name: v.name,
+           email: v.email || "",
           category: v.category, 
           estimate: v.estimate,
           phoneNo: v.phoneNo,

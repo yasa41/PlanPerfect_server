@@ -24,7 +24,7 @@ const eventTypeSchema = new mongoose.Schema({
       category: { type: String, required: true },
       name: { type: String, required: true },
       estimate: { type: Number, required: true },
-
+       email: { type: String, trim: true, default: "" },
       // ADD THESE TWO FIELDS
       phoneNo: { type: String, trim: true },
       details: { type: String, trim: true },
